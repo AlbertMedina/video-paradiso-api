@@ -3,7 +3,7 @@
 ## Description
 This project recreates the classic video rental store experience in a digital environment, allowing users to browse, rent, and rate movies. The application supports different user roles, such as regular users and administrators, each with dedicated features to interact with the movie catalog and manage the platform.
 The system focuses on providing an intuitive way to explore content while enforcing role-based access and permissions, ensuring a structured and well-managed movie rental experience.
-> This repository contains the Backend (API). The Frontend application can be found in this repository: [videostore-frontend](https://github.com/AlbertMedina/5.2-Spring-Framework-Advanced-Nivell3-Frontend.git)
+> This repository contains the Backend (API). The Frontend application can be found in this repository: [video-paradiso-frontend](https://github.com/AlbertMedina/video-paradiso-frontend.git)
 
 ## Architecture & Tech Stack
 Built with Java 21 and Spring Boot 3.5.8, this project follows a Hexagonal Architecture approach to keep the core business logic independent from frameworks, infrastructure, and external systems.
@@ -79,9 +79,9 @@ Built with Java 21 and Spring Boot 3.5.8, this project follows a Hexagonal Archi
 > Authentication is handled using JWT. Protected endpoints require the token to be sent in the `Authorization` header as `Bearer <token>`.
 
 ## Installation
-1. Clone repository (https://github.com/AlbertMedina/5.2-Spring-Framework-Advanced-Nivell3-Backend.git).
+1. Clone repository (https://github.com/AlbertMedina/video-paradiso-backend.git).
 ```
-git clone https://github.com/AlbertMedina/5.2-Spring-Framework-Advanced-Nivell3-Backend.git
+git clone https://github.com/AlbertMedina/video-paradiso-backend.git
 ```
 2. Navigate to project folder.
 ```
