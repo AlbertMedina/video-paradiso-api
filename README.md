@@ -85,7 +85,7 @@ git clone https://github.com/AlbertMedina/video-paradiso-api.git
 ```
 2. Navigate to project folder.
 ```
-cd videostore-api
+cd video-paradiso-api
 ```
 3. Ensure Docker is installed and running.
 
