@@ -1,4 +1,4 @@
-# Video Paradiso
+# Video Paradiso API
 
 ## Description
 This project recreates the classic video rental store experience in a digital environment, allowing users to browse, rent, and rate movies. The application supports different user roles, such as regular users and administrators, each with dedicated features to interact with the movie catalog and manage the platform.
@@ -79,9 +79,9 @@ Built with Java 21 and Spring Boot 3.5.8, this project follows a Hexagonal Archi
 > Authentication is handled using JWT. Protected endpoints require the token to be sent in the `Authorization` header as `Bearer <token>`.
 
 ## Installation
-1. Clone repository (https://github.com/AlbertMedina/video-paradiso-backend.git).
+1. Clone repository (https://github.com/AlbertMedina/video-paradiso-api.git).
 ```
-git clone https://github.com/AlbertMedina/video-paradiso-backend.git
+git clone https://github.com/AlbertMedina/video-paradiso-api.git
 ```
 2. Navigate to project folder.
 ```
