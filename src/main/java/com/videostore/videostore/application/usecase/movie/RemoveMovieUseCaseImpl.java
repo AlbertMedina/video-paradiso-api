@@ -1,7 +1,7 @@
 package com.videostore.videostore.application.usecase.movie;
 
-import com.cloudinary.Cloudinary;
 import com.videostore.videostore.application.port.in.movie.RemoveMovieUseCase;
+import com.videostore.videostore.application.port.out.ImageStoragePort;
 import com.videostore.videostore.domain.exception.conflict.MovieHasActiveRentalsException;
 import com.videostore.videostore.domain.exception.notfound.MovieNotFoundException;
 import com.videostore.videostore.domain.model.movie.Movie;
@@ -13,9 +13,6 @@ import com.videostore.videostore.domain.repository.ReviewRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
-import java.util.Map;
-
 @Service
 public class RemoveMovieUseCaseImpl implements RemoveMovieUseCase {
 
@@ -23,19 +20,19 @@ public class RemoveMovieUseCaseImpl implements RemoveMovieUseCase {
     private final RentalRepository rentalRepository;
     private final ReviewRepository reviewRepository;
     private final FavouriteRepository favouriteRepository;
-    private final Cloudinary cloudinary;
+    private final ImageStoragePort imageStoragePort;
 
     public RemoveMovieUseCaseImpl(MovieRepository movieRepository,
                                   RentalRepository rentalRepository,
                                   ReviewRepository reviewRepository,
                                   FavouriteRepository favouriteRepository,
-                                  Cloudinary cloudinary
+                                  ImageStoragePort imageStoragePort
     ) {
         this.movieRepository = movieRepository;
         this.rentalRepository = rentalRepository;
         this.reviewRepository = reviewRepository;
         this.favouriteRepository = favouriteRepository;
-        this.cloudinary = cloudinary;
+        this.imageStoragePort = imageStoragePort;
     }
 
     @Override
@@ -49,12 +46,7 @@ public class RemoveMovieUseCaseImpl implements RemoveMovieUseCase {
         validateMovieRemoval(id);
 
         if (movie.getPosterUrl() != null) {
-            try {
-                String publicId = extractPublicIdFromUrl(movie.getPosterUrl().value());
-                cloudinary.uploader().destroy(publicId, Map.of());
-            } catch (IOException e) {
-                throw new RuntimeException("Failed to delete movie poster from Cloudinary", e);
-            }
+            imageStoragePort.delete(movie.getPosterUrl().value());
         }
 
         reviewRepository.removeAllByMovie(id);
@@ -66,15 +58,5 @@ public class RemoveMovieUseCaseImpl implements RemoveMovieUseCase {
         if (rentalRepository.countRentalsByMovie(movieId) > 0) {
             throw new MovieHasActiveRentalsException("Cannot remove movie with active rentals");
         }
-    }
-
-    private String extractPublicIdFromUrl(String url) {
-        int folderIndex = url.indexOf("/movies/");
-        if (folderIndex < 0) {
-            throw new IllegalArgumentException("Invalid Cloudinary URL: " + url);
-        }
-        String pathWithFile = url.substring(folderIndex + 1);
-        int dotIndex = pathWithFile.lastIndexOf('.');
-        return dotIndex >= 0 ? pathWithFile.substring(0, dotIndex) : pathWithFile;
     }
 }

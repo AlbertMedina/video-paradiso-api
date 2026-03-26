@@ -1,6 +1,5 @@
 package com.videostore.videostore.application.usecase.movie;
 
-import com.cloudinary.Cloudinary;
 import com.videostore.videostore.application.command.movie.UpdateMoviePosterCommand;
 import com.videostore.videostore.application.model.MovieDetails;
 import com.videostore.videostore.application.port.in.movie.UpdateMoviePosterUseCase;
@@ -14,25 +13,19 @@ import com.videostore.videostore.domain.repository.ReviewRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
-import java.util.Map;
-
 @Service
 public class UpdateMoviePosterUseCaseImpl implements UpdateMoviePosterUseCase {
 
     private final MovieRepository movieRepository;
     private final ReviewRepository reviewRepository;
     private final ImageStoragePort imageStoragePort;
-    private final Cloudinary cloudinary;
 
     public UpdateMoviePosterUseCaseImpl(MovieRepository movieRepository,
                                         ReviewRepository reviewRepository,
-                                        ImageStoragePort imageStoragePort,
-                                        Cloudinary cloudinary) {
+                                        ImageStoragePort imageStoragePort) {
         this.movieRepository = movieRepository;
         this.reviewRepository = reviewRepository;
         this.imageStoragePort = imageStoragePort;
-        this.cloudinary = cloudinary;
     }
 
     @Override
@@ -43,14 +36,8 @@ public class UpdateMoviePosterUseCaseImpl implements UpdateMoviePosterUseCase {
                 .orElseThrow(() -> new MovieNotFoundException(id));
 
         if (movie.getPosterUrl() != null) {
-            PosterUrl oldPosterUrl = movie.getPosterUrl();
+            imageStoragePort.delete(movie.getPosterUrl().value());
             movie.setPosterUrl(null);
-            try {
-                String publicId = extractPublicIdFromUrl(oldPosterUrl.value());
-                cloudinary.uploader().destroy(publicId, Map.of());
-            } catch (IOException e) {
-                throw new RuntimeException("Failed to delete movie poster from Cloudinary", e);
-            }
         }
 
         if (command.poster() != null) {
@@ -77,15 +64,5 @@ public class UpdateMoviePosterUseCaseImpl implements UpdateMoviePosterUseCase {
                 updated.getPosterUrl() != null ? updated.getPosterUrl().value() : null,
                 ratingSummary
         );
-    }
-
-    private String extractPublicIdFromUrl(String url) {
-        int folderIndex = url.indexOf("/movies/");
-        if (folderIndex < 0) {
-            throw new IllegalArgumentException("Invalid Cloudinary URL: " + url);
-        }
-        String pathWithFile = url.substring(folderIndex + 1);
-        int dotIndex = pathWithFile.lastIndexOf('.');
-        return dotIndex >= 0 ? pathWithFile.substring(0, dotIndex) : pathWithFile;
     }
 }
