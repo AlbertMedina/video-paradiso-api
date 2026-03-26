@@ -58,14 +58,12 @@ public class MovieSpecifications {
         };
     }
 
-
     public static Specification<MovieEntity> orderByTitle(boolean ascending) {
         return (root, query, cb) -> {
-            if (ascending) {
-                query.orderBy(cb.asc(root.get("title")));
-            } else {
-                query.orderBy(cb.desc(root.get("title")));
-            }
+            Order titleOrder = ascending ? cb.asc(root.get("title")) : cb.desc(root.get("title"));
+            Order idOrder = cb.asc(root.get("id")); // Sempre asc per consistència
+
+            query.orderBy(titleOrder, idOrder);
             return cb.conjunction();
         };
     }
@@ -87,13 +85,16 @@ public class MovieSpecifications {
             Expression<Object> hasReviews = cb.selectCase()
                     .when(cb.greaterThan(countSubquery, 0L), 1)
                     .otherwise(0);
-
             Order hasReviewsFirst = cb.desc(hasReviews);
 
             Expression<Double> avgWithDefault = cb.coalesce(avgSubquery, 0.0);
             Order ratingOrder = ascending ? cb.asc(avgWithDefault) : cb.desc(avgWithDefault);
-            
-            query.orderBy(hasReviewsFirst, ratingOrder);
+
+            Order titleOrder = cb.asc(root.get("title"));
+
+            Order idOrder = cb.asc(root.get("id"));
+
+            query.orderBy(hasReviewsFirst, ratingOrder, titleOrder, idOrder);
 
             return cb.conjunction();
         };
