@@ -95,12 +95,16 @@ This project uses Cloudinary for movie poster storage. Before running the applic
 ```
 cp .env.example .env
 ```
-2. Open the `.env` file and fill in your Cloudinary credentials:
+2. Open the `.env` file and fill in your Cloudinary credentials.
+3. ```
 - CLOUDINARY_CLOUD_NAME: Your Cloudinary Cloud Name.
 - CLOUDINARY_API_KEY: Your Cloudinary API Key.
 - CLOUDINARY_API_SECRET: Your Cloudinary API Secret.
+```
+
 💡 Optional: If you don't want to use Cloudinary, you can leave these variables blank. The application will still work perfectly for browsing, renting, and managing movies. The only limitation is that you won't be able to upload movie posters (movies will simply appear without an image).
-Note: The `.env` file is ignored by Git to keep your credentials secure. Ensure you have a valid Cloudinary account to enable image uploads.
+
+> Note: The `.env` file is ignored by Git to keep your credentials secure. Ensure you have a valid Cloudinary account to enable image uploads.
 
 ## Execution
 1. Start the application and databases with Docker Compose:
