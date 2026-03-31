@@ -96,7 +96,7 @@ This project uses Cloudinary for movie poster storage. Before running the applic
 cp .env.example .env
 ```
 2. Open the `.env` file and fill in your Cloudinary credentials.
-3. ```
+```
 - CLOUDINARY_CLOUD_NAME: Your Cloudinary Cloud Name.
 - CLOUDINARY_API_KEY: Your Cloudinary API Key.
 - CLOUDINARY_API_SECRET: Your Cloudinary API Secret.
