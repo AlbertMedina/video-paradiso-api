@@ -91,8 +91,14 @@ cd video-paradiso-api
 ## Configuration
 This project uses Cloudinary for movie poster storage. Before running the application, you must set up your environment variables:
 1. Copy the example environment file.
-- On Linux/Mac/Git Bash: `cp .env.example .env`
-- On Windows (CMD): `copy .env.example .env`
+- On Linux/Mac/Git Bash:
+```
+cp .env.example .env
+```
+- On Windows (CMD):
+```
+copy .env.example .env
+```
 2. Open the `.env` file and fill in your Cloudinary credentials.
 ```
 - CLOUDINARY_CLOUD_NAME: Your Cloudinary Cloud Name.
