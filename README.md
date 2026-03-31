@@ -87,14 +87,12 @@ git clone https://github.com/AlbertMedina/video-paradiso-api.git
 ```
 cd video-paradiso-api
 ```
-3. Ensure Docker is installed and running.
 
 ## Configuration
 This project uses Cloudinary for movie poster storage. Before running the application, you must set up your environment variables:
 1. Copy the example environment file.
-```
-cp .env.example .env
-```
+- On Linux/Mac/Git Bash: `cp .env.example .env`
+- On Windows (CMD): `copy .env.example .env`
 2. Open the `.env` file and fill in your Cloudinary credentials.
 ```
 - CLOUDINARY_CLOUD_NAME: Your Cloudinary Cloud Name.
@@ -107,7 +105,8 @@ cp .env.example .env
 💡 Optional: If you don't want to use Cloudinary, you can leave these variables blank. The application will still work perfectly for browsing, renting, and managing movies. The only limitation is that you won't be able to upload movie posters (movies will simply appear without an image).
 
 ## Execution
-1. Start the application and databases with Docker Compose:
+1. Ensure Docker is installed and running.
+2. Start the application and databases with Docker Compose:
 ```
 docker-compose up --build
 ```
