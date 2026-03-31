@@ -21,6 +21,8 @@ Built with Java 21 and Spring Boot 3.5.8, this project follows a Hexagonal Archi
   Application-level caching using Spring Cache to improve performance and reduce database load on frequently accessed resources.
 - **Testing**  
   Integration testing using Spring Boot Test and MockMvc, with Testcontainers providing Dockerized database environments to ensure realistic and reproducible test execution.
+- **Containerization**
+  Uses Docker to package the application and its databases, making it easy to run the entire project in any environment without manual setup.
 - **Documentation**  
   Interactive API documentation generated with OpenAPI (Swagger UI), allowing easy exploration and testing of available endpoints.
 
